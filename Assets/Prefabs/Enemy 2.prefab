@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acb282e5fd40b4f1c9a595c5c07e5207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementSpeed: 3
   randomWaveSpeed: 0
   randomWaveLength: 0
 --- !u!70 &-5438106059725298701

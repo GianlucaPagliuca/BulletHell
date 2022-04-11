@@ -222,6 +222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOver: 0
   enemy: {fileID: 2486894121645897246, guid: 766b7d2c884434db485be1b52c1f76e1, type: 3}
+  enemy2: {fileID: 2486894121645897246, guid: 55c0ecd7e66f54f28b3a763a2c2e2634, type: 3}
+  enemy3: {fileID: 2486894121645897246, guid: dae958c70079e4170b419f1a645fea0a, type: 3}
 --- !u!1001 &8520699467422710000
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -235,11 +237,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.14
+      value: -0.26
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.91
+      value: -2.38
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.z
