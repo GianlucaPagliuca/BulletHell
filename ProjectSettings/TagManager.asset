@@ -8,6 +8,8 @@ TagManager:
   - LeftSpawn
   - RightSpawn
   - Enemy
+  - Enemy2
+  - Enemy3
   layers:
   - Default
   - TransparentFX

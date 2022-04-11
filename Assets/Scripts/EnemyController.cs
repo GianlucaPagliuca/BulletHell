@@ -6,17 +6,18 @@ using UnityEngine;
 //get the enemies bullets to find where the players x value is and shoot a bullet going in that direction but make it keep going until the y is off screen
 public class EnemyController : MonoBehaviour
 {
-    private GameObject enemy, player;
-    private Vector3 destination;
+    private GameObject player;
+    [SerializeField]
+    [Range(1,50)]
+    private float movementSpeed, randomWaveSpeed, randomWaveLength;
     private Vector2 screenBounds;
     // Start is called before the first frame update
     void Start()
     {
-        enemy = this.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
-        destination = player.transform.position;
-        destination.y = (screenBounds.y * -1) - (enemy.GetComponent<SpriteRenderer>().bounds.size.y / 2);
+        randomWaveSpeed = Mathf.Floor(Random.Range(1.0f, 8.0f));
+        randomWaveLength = Mathf.Floor(Random.Range(1.0f, 5.0f));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -31,31 +32,86 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    void Enemy1Movement()
+    {
+        Vector3 movement = new Vector3(-1, Mathf.Sin(Time.time * randomWaveSpeed) * randomWaveLength, 0);
+        float enemyHeight = gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+        movement *= Time.deltaTime * movementSpeed;
+        transform.Translate(movement);
+
+        if(transform.position.y >= screenBounds.y - enemyHeight)
+        {
+            transform.position = new Vector3(transform.position.x, screenBounds.y - enemyHeight, transform.position.z);
+        }else if(transform.position.y <= (screenBounds.y * -1) + enemyHeight)
+        {
+            transform.position = new Vector3(transform.position.x, (screenBounds.y * -1) + enemyHeight, transform.position.z);
+        }
+
+        if (transform.position.x <= screenBounds.x * -1 - (gameObject.GetComponent<SpriteRenderer>().bounds.size.x / 2))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void Enemy2Movement()
+    {
+        Vector3 movement = new Vector3(Mathf.Cos(Time.time * randomWaveSpeed) * randomWaveLength, -1, 0);
+        float enemyWidth = gameObject.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+        movement *= Time.deltaTime;
+        transform.Translate(movement);
+
+        if(transform.position.x >= screenBounds.x - enemyWidth)
+        {
+            transform.position = new Vector3(screenBounds.x - enemyWidth, transform.position.y, transform.position.z);
+        }else if(transform.position.x <= (screenBounds.x * -1) + enemyWidth)
+        {
+            transform.position = new Vector3((screenBounds.x * -1) + enemyWidth, transform.position.y, transform.position.z);
+        }
+
+        if (transform.position.y <= screenBounds.y * -1 - (gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2))
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    void Enemy3Movement()
+    {
+        Vector3 movement = new Vector3(+1, Mathf.Sin(Time.time * randomWaveSpeed) * randomWaveLength, 0);
+        float enemyHeight = gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+        movement *= Time.deltaTime * movementSpeed;
+        transform.Translate(movement);
+
+        if(transform.position.y >= screenBounds.y - enemyHeight)
+        {
+            transform.position = new Vector3(transform.position.x, screenBounds.y - enemyHeight, transform.position.z);
+        }else if(transform.position.y <= (screenBounds.y * -1) + enemyHeight)
+        {
+            transform.position = new Vector3(transform.position.x, (screenBounds.y * -1) + enemyHeight, transform.position.z);
+        }
+
+        if(transform.position.x >= screenBounds.x + gameObject.GetComponent<SpriteRenderer>().bounds.size.x / 2)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if(enemy.transform.position != destination)
+        switch (gameObject.tag)
         {
-            Vector3 enemyMovement = new Vector3(0, 0);
-
-            if (enemy.transform.position.x != destination.x)
-            {
-                enemyMovement.x = enemy.transform.position.x > destination.x ? -1 : 1;
-            }
-
-            if(enemy.transform.position.y != destination.y)
-            {
-                enemyMovement.y = enemy.transform.position.y > destination.y ? -1 : 1;
-            }
-
-            if(enemy.transform.position.y < destination.y)
-            {
-                Destroy(enemy);
-            }
-
-            enemyMovement *= Time.deltaTime;
-
-            transform.Translate(enemyMovement);
+            case "Enemy1":
+                Enemy1Movement();
+                break;
+            case "Enemy2":
+                Enemy2Movement();
+                break;
+            case "Enemy3":
+                Enemy3Movement();
+                break;
+            default:
+                Enemy1Movement();
+                break;
         }
     }
 }
