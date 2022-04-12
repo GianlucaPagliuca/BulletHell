@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Enemy2
   - Enemy3
+  - Canvas
   layers:
   - Default
   - TransparentFX

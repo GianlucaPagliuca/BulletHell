@@ -1,27 +1,55 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private float playerHealth, spawnTimer, spawnCooldown;
+    private float playerHealth, spawnTimer, spawnCooldown, newAlphaValue;
     private int enemyCount, randomChoice, randomEnemyCount;
     public bool gameOver = false;
     private GameObject player;
-    public GameObject[] enemies;
-    private bool enemySpawnCooldown;
+    public GameObject[] enemies, gameOverButtons;
+    private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
     private Vector2 screenBounds;
+    public Canvas gameOverCanvas;
+    public GameObject gameOverText;
+    public Image gameOverPanel;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
+        player.transform.position = new Vector3(0, (screenBounds.y * -1) / 2, 1);
         RandomSpawnTimer();
         enemyCount = 0;
         enemySpawnCooldown = false;
         spawnCooldown = 10.0f;
         randomEnemyCount = Random.Range(5, 10);
         randomChoice = Random.Range(1, 10);
+        gameOverText.SetActive(false);
+        newAlphaValue = 0.0f;
+        gameOverPanel.color = new Color(0, 0, 0, 0);
+        activateGameOverButtons = false;
+        button1Set = false;
+        button2Set = false;
+        foreach (GameObject button in gameOverButtons){
+            button.SetActive(false);
+        }
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void EnemyCountAndSpawn()
@@ -75,6 +103,46 @@ public class GameManager : MonoBehaviour
         spawnTimer = Mathf.Floor(Random.Range(1.0f, 5.0f));
     }
 
+    void SetGameOverScreen()
+    {
+        float alphaValue = gameOverText.GetComponent<TextMeshProUGUI>().color.a;
+
+        if (!activateGameOverButtons)
+        {
+            gameOverText.SetActive(true);
+            gameOverText.GetComponent<TextMeshProUGUI>().color = new Color(191, 0, 0, alphaValue >= 1 ? 1 : newAlphaValue);
+            gameOverPanel.color = new Color(0, 0, 0, alphaValue >= 1 ? 1 : newAlphaValue);
+            newAlphaValue += Time.deltaTime * 0.3f ;
+
+            activateGameOverButtons = alphaValue >= 1 ? true : false;
+        }
+        else
+        {
+            Vector3 movement = new Vector3(0, 1, 0);
+            movement *= Time.deltaTime * 1;
+            gameOverText.transform.Translate(movement);
+
+            if(gameOverText.transform.position.y >= screenBounds.y / 2)
+            {
+                gameOverText.transform.position = new Vector3(gameOverText.transform.position.x, screenBounds.y / 2, gameOverText.transform.position.z);
+
+                if (!button1Set)
+                {
+                    gameOverButtons[0].transform.position = new Vector3(0, 0, 0);
+                    gameOverButtons[0].SetActive(true);
+                    button1Set = true;
+                }
+
+                if(button1Set && !button2Set)
+                {
+                    gameOverButtons[1].transform.position = new Vector3(0, (screenBounds.y * -1) / 2, 0);
+                    gameOverButtons[1].SetActive(true);
+                    button2Set = true;
+                }
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -82,6 +150,8 @@ public class GameManager : MonoBehaviour
         if(playerHealth <= 0)
         {
             gameOver = true;
+
+            SetGameOverScreen();
         }
 
         if (!gameOver)
