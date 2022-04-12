@@ -386,9 +386,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOver: 0
-  enemy: {fileID: 2486894121645897246, guid: 766b7d2c884434db485be1b52c1f76e1, type: 3}
-  enemy2: {fileID: 2486894121645897246, guid: 55c0ecd7e66f54f28b3a763a2c2e2634, type: 3}
-  enemy3: {fileID: 2486894121645897246, guid: dae958c70079e4170b419f1a645fea0a, type: 3}
+  enemies:
+  - {fileID: 2486894121645897246, guid: 766b7d2c884434db485be1b52c1f76e1, type: 3}
+  - {fileID: 2486894121645897246, guid: 55c0ecd7e66f54f28b3a763a2c2e2634, type: 3}
+  - {fileID: 2486894121645897246, guid: dae958c70079e4170b419f1a645fea0a, type: 3}
 --- !u!1001 &8520699467422710000
 PrefabInstance:
   m_ObjectHideFlags: 0
