@@ -20,6 +20,7 @@ public class BulletMovement : MonoBehaviour
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Enemy2" || collision.gameObject.tag == "Enemy3")
         {
             Destroy(collision.gameObject);
+
         }
     }
     // Update is called once per frame

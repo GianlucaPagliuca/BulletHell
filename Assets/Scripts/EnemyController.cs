@@ -7,6 +7,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     private GameObject player;
+    private GameObject cam;
     [SerializeField]
     [Range(1,50)]
     private float movementSpeed, randomWaveSpeed, randomWaveLength;
@@ -18,13 +19,19 @@ public class EnemyController : MonoBehaviour
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
         randomWaveSpeed = Mathf.Floor(Random.Range(1.0f, 8.0f));
         randomWaveLength = Mathf.Floor(Random.Range(1.0f, 5.0f));
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "Bullet")
         {
+
             Destroy(collision.gameObject);
+            cam.GetComponent<GameManager>().Score += 1 * Mathf.CeilToInt(movementSpeed);
+            Debug.Log(cam.GetComponent<GameManager>().Score);
+
         }else if(collision.gameObject.tag == "Player"){
             player.GetComponent<PlayerController>().health -= 1;
             Destroy(this.gameObject);

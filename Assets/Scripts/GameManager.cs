@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Canvas gameOverCanvas;
     public GameObject gameOverText;
     public Image gameOverPanel;
+    public int Score = 0;
     // Start is called before the first frame update
     void Start()
     {
