@@ -6,12 +6,16 @@ using UnityEngine;
 //get the enemies bullets to find where the players x value is and shoot a bullet going in that direction but make it keep going until the y is off screen
 public class EnemyController : MonoBehaviour
 {
-    private GameObject player;
-    private GameObject cam;
+    private GameObject player, cam;
     [SerializeField]
     [Range(1,50)]
-    private float movementSpeed, randomWaveSpeed, randomWaveLength;
+    private float randomWaveSpeed, randomWaveLength;
+    [Range(1,50)]
+    public float movementSpeed;
     private Vector2 screenBounds;
+    public GameObject bullet;
+    private bool bulletReady = true;
+    private float shootCooldown = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +62,9 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        EnemyShoot(this.transform.position);
+
     }
 
     void Enemy2Movement()
@@ -79,6 +86,8 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        EnemyShoot(this.transform.position);
     }
 
     void Enemy3Movement()
@@ -100,6 +109,30 @@ public class EnemyController : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        EnemyShoot(this.transform.position);
+    }
+
+    void EnemyShoot(Vector3 bulletPos)
+    {
+        if (bulletReady)
+        {
+            Quaternion bulletRot = new Quaternion(0, 180, 0, 0);
+            bulletPos.y -= gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+            Instantiate<GameObject>(bullet, bulletPos, bulletRot);
+
+            bulletReady = false;
+        }
+        else
+        {
+            shootCooldown += movementSpeed * Time.deltaTime;
+            if (shootCooldown >= 1.0f)
+            {
+                bulletReady = true;
+                shootCooldown = 0.0f;
+            }
+        }
+
     }
 
     // Update is called once per frame
