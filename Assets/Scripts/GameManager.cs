@@ -9,17 +9,17 @@ public class GameManager : MonoBehaviour
     private int enemyCount, randomChoice, randomEnemyCount;
     public bool gameOver = false;
     private GameObject player;
-    public GameObject[] enemies, gameOverButtons;
+    public GameObject[] enemies, gameOverButtons, pauseButtons;
     private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
     private Vector2 screenBounds;
     public Canvas gameOverCanvas;
-    public GameObject pauseMenuText;
-
+    public GameObject pauseMenuText, pauseMenuPanel;
+  
     public GameObject gameOverText, scoreText;
 
     public Image gameOverPanel;
     public int Score = 0;
-    public bool mainMenu = false;
+    public bool mainMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         randomEnemyCount = Random.Range(5, 10);
         randomChoice = Random.Range(1, 10);
         gameOverText.SetActive(false);
-        pauseMenuText.SetActive(false);
+        pauseMenuText.transform.position = new Vector3(0, screenBounds.y / 2, -2);
         newAlphaValue = 0.0f;
         gameOverPanel.color = new Color(0, 0, 0, 0);
         activateGameOverButtons = false;
@@ -42,7 +42,10 @@ public class GameManager : MonoBehaviour
         scoreText.transform.position = new Vector3(screenBounds.x * -1 + 1, screenBounds.y * -1 + 1, -2);
         foreach (GameObject button in gameOverButtons){
             button.SetActive(false);
+
         }
+        pauseButtons[0].transform.position = new Vector3(0, 0, -2);
+        pauseButtons[1].transform.position = new Vector3(0, screenBounds.y * -1 / 2, -2);
     }
 
     public void ExitGame()
@@ -150,20 +153,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void SetMainMenu()
+    public void ResumeGame()
     {
-        
-        if (mainMenu)
+
+        pauseMenuPanel.SetActive(false);
+        mainMenu = false;
+        Time.timeScale = 1;
+        gameOverPanel.color = new Color(0, 0, 0, 0);
+
+    }
+
+
+
+    void SetMainMenu(bool menuActive)
+    {
+
+        Color panelColor = new Color(0, 0, 0, 1);
+
+
+        pauseMenuPanel.SetActive(menuActive);
+        if (menuActive )
         {
-            pauseMenuText.SetActive(true);
+
+            gameOverPanel.color = panelColor;
+
 
         }
         else
         {
-            pauseMenuText.SetActive(false);
+            panelColor.a = 0;
+            gameOverPanel.color = panelColor;
         }
-    }
 
+
+
+
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -214,25 +240,27 @@ public class GameManager : MonoBehaviour
                         return;
                 }
             }
-            bool menu = Input.GetKeyDown("escape");
+            
 
 
-            if (menu)
+            if (Input.GetKeyDown("escape"))
             {
-                SetMainMenu();
-                if (mainMenu) {
-                    mainMenu = false;
-                    Time.timeScale = 0;
-                    Debug.Log("Pause");
+              
+                if (mainMenu) 
+                    {
+                    mainMenu = false;                    
+                    Time.timeScale = 1;
+                    
                     
                 }
                 else
                 {
                     mainMenu = true;
-                    Time.timeScale = 1;
-                    Debug.Log("UnPause");
+                    Time.timeScale = 0;
+                    
                     
                 }
+                SetMainMenu(mainMenu);
                 
             }
          
