@@ -413,7 +413,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 2
-  m_Text: wadawdsa
+  m_Text: 'Score: '
 --- !u!1 &382812734
 GameObject:
   m_ObjectHideFlags: 0
@@ -975,6 +975,86 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694934067}
   m_CullTransparentMesh: 1
+--- !u!1 &886126234
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 886126237}
+  - component: {fileID: 886126236}
+  - component: {fileID: 886126235}
+  m_Layer: 5
+  m_Name: Health
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &886126235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886126234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8207547, g: 0.058072258, b: 0.07616438, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 8a2b9e2a607dd2143b58c44bc32410b4, type: 3}
+    m_FontSize: 24
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 2
+  m_Text: 'Health: '
+--- !u!222 &886126236
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886126234}
+  m_CullTransparentMesh: 0
+--- !u!224 &886126237
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886126234}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1105011823}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 534, y: -227}
+  m_SizeDelta: {x: 200, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1105011822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1088,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 335334841}
+  - {fileID: 886126237}
   m_Father: {fileID: 1321428750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1498,9 +1579,15 @@ MonoBehaviour:
   gameOverButtons:
   - {fileID: 1733358282}
   - {fileID: 607632665}
+  pauseButtons: []
+  powerUps:
+  - {fileID: 8888840129525154247, guid: ee40815235a638c43aa165f30b082202, type: 3}
   gameOverCanvas: {fileID: 572285224}
+  pauseMenuText: {fileID: 0}
+  pauseMenuPanel: {fileID: 0}
   gameOverText: {fileID: 1278720538}
   scoreText: {fileID: 335334840}
+  healthText: {fileID: 886126234}
   gameOverPanel: {fileID: 291403509}
   Score: 0
   mainMenu: 0
@@ -1794,11 +1881,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.26
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.38
+      value: -4.02
       objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823616, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_LocalPosition.z

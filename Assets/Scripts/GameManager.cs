@@ -5,18 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private float playerHealth, spawnTimer, spawnCooldown, newAlphaValue;
+    private float playerHealth, spawnTimer, spawnCooldown, newAlphaValue, randomPowerupSpawn;
     private int enemyCount, randomChoice, randomEnemyCount;
     public bool gameOver = false;
     private GameObject player;
-    public GameObject[] enemies, gameOverButtons, pauseButtons;
+    public GameObject[] enemies, gameOverButtons, pauseButtons, powerUps;
     private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
     private Vector2 screenBounds;
     public Canvas gameOverCanvas;
     public GameObject pauseMenuText, pauseMenuPanel;
   
-    public GameObject gameOverText, scoreText;
-
+    public GameObject gameOverText, scoreText, healthText;
     public Image gameOverPanel;
     public int Score = 0;
     public bool mainMenu;
@@ -39,7 +38,9 @@ public class GameManager : MonoBehaviour
         activateGameOverButtons = false;
         button1Set = false;
         button2Set = false;
-        scoreText.transform.position = new Vector3(screenBounds.x * -1 + 1, screenBounds.y * -1 + 1, -2);
+        randomPowerupSpawn = Random.Range(1, 20);
+        scoreText.transform.position = new Vector3(screenBounds.x * -1 + 2, screenBounds.y * -1 + 1, -2);
+        healthText.transform.position = new Vector3(screenBounds.x - 2, screenBounds.y * -1 + 1, -2);
         foreach (GameObject button in gameOverButtons){
             button.SetActive(false);
 
@@ -153,6 +154,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void SpawnPowerup()
+    {
+        int randomPowerUp = Random.Range(powerUps.GetLowerBound(0), powerUps.GetUpperBound(0));
+        Vector2 powerUpSize = powerUps[randomPowerUp].GetComponent<SpriteRenderer>().bounds.size;
+        float randomX = Random.Range(screenBounds.x * -1 + powerUpSize.x, screenBounds.x - powerUpSize.x);
+        Vector3 powerUpPosition = new Vector3(randomX, screenBounds.y + 2, 0);
+        Quaternion powerUpRot = new Quaternion(0, 0, 90, 0);
+        
+        Instantiate<GameObject>(powerUps[randomPowerUp], powerUpPosition, powerUpRot);
+    }
+
     public void ResumeGame()
     {
 
@@ -194,6 +206,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         playerHealth = player.GetComponent<PlayerController>().health;
+        healthText.GetComponent<Text>().text = "Health: " + Mathf.CeilToInt(playerHealth).ToString();
         if(playerHealth <= 0)
         {
             gameOver = true;
@@ -215,7 +228,7 @@ public class GameManager : MonoBehaviour
             }
 
             spawnTimer -= 1 * Time.deltaTime;
-            if(spawnTimer <= 0 && !enemySpawnCooldown)
+            if (spawnTimer <= 0 && !enemySpawnCooldown)
             {
                 if (randomChoice % 2 == 0)
                     randomChoice = 2;
@@ -240,8 +253,7 @@ public class GameManager : MonoBehaviour
                         return;
                 }
             }
-            
-
+            bool menu = Input.GetKeyDown("escape");
 
             if (Input.GetKeyDown("escape"))
             {
@@ -264,20 +276,7 @@ public class GameManager : MonoBehaviour
                 
             }
          
-
-                
-            
-
-
-
-
-
-            
-
-
         }
-   
-
 
     }
 
