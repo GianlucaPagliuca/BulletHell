@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverText;
     public Image gameOverPanel;
     public int Score = 0;
+    public GameObject scoreText;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject button in gameOverButtons){
             button.SetActive(false);
         }
+        scoreText.transform.position = new Vector3((screenBounds.x * -1) + 1, (screenBounds.y * -1) + 1, 1);
     }
 
     public void ExitGame()
