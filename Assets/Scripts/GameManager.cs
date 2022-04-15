@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     private Vector2 screenBounds;
     public Canvas gameOverCanvas;
     public GameObject gameOverText;
+    public GameObject pauseMenuText;
     public Image gameOverPanel;
     public int Score = 0;
     public bool mainMenu = false;
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
         randomEnemyCount = Random.Range(5, 10);
         randomChoice = Random.Range(1, 10);
         gameOverText.SetActive(false);
+        pauseMenuText.SetActive(false);
         newAlphaValue = 0.0f;
         gameOverPanel.color = new Color(0, 0, 0, 0);
         activateGameOverButtons = false;
@@ -145,6 +147,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void SetMainMenu()
+    {
+        
+        if (mainMenu)
+        {
+            pauseMenuText.SetActive(true);
+
+        }
+        else
+        {
+            pauseMenuText.SetActive(false);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -200,17 +216,21 @@ public class GameManager : MonoBehaviour
 
             if (menu)
             {
+                SetMainMenu();
                 if (mainMenu) {
                     mainMenu = false;
                     Time.timeScale = 0;
-                    Debug.Log("Pause"); }
+                    Debug.Log("Pause");
+                    
+                }
                 else
                 {
                     mainMenu = true;
                     Time.timeScale = 1;
                     Debug.Log("UnPause");
+                    
                 }
-
+                
             }
          
 

@@ -3,7 +3,11 @@ guid: 82b83e459fd8d415abad4f4cdca53a88
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - gameOverCanvas: {instanceID: 0}
+  - gameOverText: {instanceID: 0}
+  - pauseMenuText: {instanceID: 0}
+  - gameOverPanel: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
