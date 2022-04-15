@@ -13,8 +13,12 @@ public class GameManager : MonoBehaviour
     private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
     private Vector2 screenBounds;
     public Canvas gameOverCanvas;
+<<<<<<< Updated upstream
     public GameObject gameOverText;
     public GameObject pauseMenuText;
+=======
+    public GameObject gameOverText, scoreText;
+>>>>>>> Stashed changes
     public Image gameOverPanel;
     public int Score = 0;
     public bool mainMenu = false;
@@ -37,6 +41,7 @@ public class GameManager : MonoBehaviour
         activateGameOverButtons = false;
         button1Set = false;
         button2Set = false;
+        scoreText.transform.position = new Vector3(screenBounds.x * -1 + 1, screenBounds.y * -1 + 1, -2);
         foreach (GameObject button in gameOverButtons){
             button.SetActive(false);
         }

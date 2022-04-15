@@ -1500,9 +1500,10 @@ MonoBehaviour:
   - {fileID: 607632665}
   gameOverCanvas: {fileID: 572285224}
   gameOverText: {fileID: 1278720538}
+  scoreText: {fileID: 335334840}
   gameOverPanel: {fileID: 291403509}
   Score: 0
-  scoreText: {fileID: 335334840}
+  mainMenu: 0
 --- !u!1 &1724364045
 GameObject:
   m_ObjectHideFlags: 0

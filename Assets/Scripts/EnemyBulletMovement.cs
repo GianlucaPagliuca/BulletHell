@@ -41,6 +41,16 @@ public class EnemyBulletMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<PlayerController>().health -= 1;
+            Destroy(this.gameObject);
+        }
+
+    }
+
     // Update is called once per frame
     void Update()
     {

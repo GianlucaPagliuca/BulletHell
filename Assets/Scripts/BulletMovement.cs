@@ -15,14 +15,15 @@ public class BulletMovement : MonoBehaviour
         bullet = this.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Enemy2" || collision.gameObject.tag == "Enemy3")
         {
             Destroy(collision.gameObject);
-
         }
     }
+
     // Update is called once per frame
     void Update()
     {

@@ -29,17 +29,21 @@ public class EnemyController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Bullet")
+        if(collision.gameObject.tag == "Player")
         {
-
-            Destroy(collision.gameObject);
-            cam.GetComponent<GameManager>().Score += 1 * Mathf.CeilToInt(movementSpeed);
-            Debug.Log(cam.GetComponent<GameManager>().Score);
-
-        }else if(collision.gameObject.tag == "Player"){
             player.GetComponent<PlayerController>().health -= 1;
             Destroy(this.gameObject);
             Debug.Log(player.GetComponent<PlayerController>().health);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Bullet")
+        {
+            cam.GetComponent<GameManager>().Score += 1 * Mathf.CeilToInt(movementSpeed);
+            Destroy(collision.gameObject);
+            
         }
     }
 
@@ -118,7 +122,7 @@ public class EnemyController : MonoBehaviour
         if (bulletReady)
         {
             Quaternion bulletRot = new Quaternion(0, 180, 0, 0);
-            bulletPos.y -= gameObject.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+            bulletPos.y -= gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
             Instantiate<GameObject>(bullet, bulletPos, bulletRot);
 
             bulletReady = false;
@@ -126,7 +130,7 @@ public class EnemyController : MonoBehaviour
         else
         {
             shootCooldown += movementSpeed * Time.deltaTime;
-            if (shootCooldown >= 1.0f)
+            if (shootCooldown >= 5.0f)
             {
                 bulletReady = true;
                 shootCooldown = 0.0f;
