@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverText;
     public Image gameOverPanel;
     public int Score = 0;
+    public bool mainMenu = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -194,9 +195,39 @@ public class GameManager : MonoBehaviour
                         return;
                 }
             }
+            bool menu = Input.GetKeyDown("escape");
+
+
+            if (menu)
+            {
+                if (mainMenu) {
+                    mainMenu = false;
+                    Time.timeScale = 0;
+                    Debug.Log("Pause"); }
+                else
+                {
+                    mainMenu = true;
+                    Time.timeScale = 1;
+                    Debug.Log("UnPause");
+                }
+
+            }
+         
+
+                
+            
+
+
+
+
 
             
+
+
         }
+   
+
 
     }
+
 }
