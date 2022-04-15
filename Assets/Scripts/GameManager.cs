@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         foreach (GameObject button in gameOverButtons){
             button.SetActive(false);
         }
-        scoreText.transform.position = new Vector3((screenBounds.x * -1) + 1, (screenBounds.y * -1) + 1, 1);
+        scoreText.transform.position = new Vector3((screenBounds.x * -1) + 1, (screenBounds.y * -1) + 1, -1);
     }
 
     public void ExitGame()

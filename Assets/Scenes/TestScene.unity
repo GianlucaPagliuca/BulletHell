@@ -1066,7 +1066,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1321428749}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -1502,6 +1502,7 @@ MonoBehaviour:
   gameOverText: {fileID: 1278720538}
   gameOverPanel: {fileID: 291403509}
   Score: 0
+  scoreText: {fileID: 335334840}
 --- !u!1 &1724364045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1655,7 +1656,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1733358283
 RectTransform:
   m_ObjectHideFlags: 0

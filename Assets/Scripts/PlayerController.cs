@@ -98,13 +98,10 @@ public class PlayerController : MonoBehaviour
             Vector3 bulletPos = new Vector3(player.transform.position.x, player.transform.position.y + 1f);
             Quaternion bulletRotation = player.transform.rotation;
 
-            if (jump == 1)
+            if (jump == 1 && bulletReady)
             {
-                if (bulletReady)
-                {
-                    Instantiate<GameObject>(bullet, bulletPos, bulletRotation);
-                    bulletReady = false;
-                }
+                Instantiate<GameObject>(bullet, bulletPos, bulletRotation);
+                bulletReady = false;
             }
 
             if (!bulletReady)
