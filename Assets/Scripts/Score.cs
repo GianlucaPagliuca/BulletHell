@@ -23,7 +23,8 @@ public class Score : MonoBehaviour
     }
     public void TextChange()
     {
-        scoreText.text = cam.GetComponent<GameManager>().Score.ToString();
+        scoreText.text = "Score: " + cam.GetComponent<GameManager>().Score.ToString();
+
 
     }
 }
