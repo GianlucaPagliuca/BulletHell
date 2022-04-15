@@ -13,12 +13,10 @@ public class GameManager : MonoBehaviour
     private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
     private Vector2 screenBounds;
     public Canvas gameOverCanvas;
-<<<<<<< Updated upstream
-    public GameObject gameOverText;
     public GameObject pauseMenuText;
-=======
+
     public GameObject gameOverText, scoreText;
->>>>>>> Stashed changes
+
     public Image gameOverPanel;
     public int Score = 0;
     public bool mainMenu = false;
