@@ -13,6 +13,7 @@ TagManager:
   - Canvas
   - EnemyBullet
   - 1Up
+  - Boss
   layers:
   - Default
   - TransparentFX

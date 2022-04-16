@@ -6,16 +6,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private float playerHealth, spawnTimer, spawnCooldown, newAlphaValue, randomPowerupSpawn;
-    private int enemyCount, randomChoice, randomEnemyCount;
-    public bool gameOver = false;
+    private int enemyCount, randomChoice, randomEnemyCount, randomWaveLimit, waveCount;
     private GameObject player;
-    public GameObject[] enemies, gameOverButtons, pauseButtons, powerUps;
-    private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set;
+    private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set, bossSet = false;
     private Vector2 screenBounds;
+
+    public GameObject[] enemies, gameOverButtons, pauseButtons, powerUps;
+    public bool gameOver = false;
     public Canvas gameOverCanvas;
     public GameObject pauseMenuText, pauseMenuPanel;
-  
-    public GameObject gameOverText, scoreText, healthText;
+    public GameObject gameOverText, scoreText, healthText, waveText;
+    public GameObject boss;
     public Image gameOverPanel;
     public int Score = 0;
     public bool mainMenu;
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
         activateGameOverButtons = false;
         button1Set = false;
         button2Set = false;
-        randomPowerupSpawn = Random.Range(1, 20);
+        randomPowerupSpawn = Random.Range(10, 20);
         scoreText.transform.position = new Vector3(screenBounds.x * -1 + 2, screenBounds.y * -1 + 1, -2);
         healthText.transform.position = new Vector3(screenBounds.x - 2, screenBounds.y * -1 + 1, -2);
         foreach (GameObject button in gameOverButtons){
@@ -47,6 +48,10 @@ public class GameManager : MonoBehaviour
         }
         pauseButtons[0].transform.position = new Vector3(0, 0, -2);
         pauseButtons[1].transform.position = new Vector3(0, screenBounds.y * -1 / 2, -2);
+        randomWaveLimit = Random.Range(5, 10); //1;
+        waveText.transform.position = new Vector3(screenBounds.x * -1 + 2, screenBounds.y - 1, -1);
+        waveCount = 0;
+        waveText.GetComponent<TextMeshProUGUI>().text = "Wave: " + (waveCount + 1).ToString() + " / " + (randomWaveLimit + 2);
     }
 
     public void ExitGame()
@@ -74,7 +79,9 @@ public class GameManager : MonoBehaviour
             randomEnemyCount = Random.Range(5, 10);
             enemySpawnCooldown = true;
             randomChoice = Random.Range(1, 10);
-            Debug.Log(randomChoice);
+            waveCount++;
+            waveText.GetComponent<TextMeshProUGUI>().text = "Wave: " + (waveCount + 1).ToString() + " / " + (randomWaveLimit + 2);
+            Debug.Log("Wave: " + waveCount + " Wave Limit: " + randomWaveLimit);
         }
     }
 
@@ -114,13 +121,14 @@ public class GameManager : MonoBehaviour
         spawnTimer = Mathf.Floor(Random.Range(1.0f, 5.0f));
     }
 
-    void SetGameOverScreen()
+    public void SetGameOverScreen(string endingMessage)
     {
         float alphaValue = gameOverText.GetComponent<TextMeshProUGUI>().color.a;
 
         if (!activateGameOverButtons)
         {
             gameOverText.SetActive(true);
+            gameOverText.GetComponent<TextMeshProUGUI>().text = endingMessage;
             gameOverText.GetComponent<TextMeshProUGUI>().color = new Color(191, 0, 0, alphaValue >= 1 ? 1 : newAlphaValue);
             gameOverPanel.color = new Color(0, 0, 0, alphaValue >= 1 ? 1 : newAlphaValue);
             newAlphaValue += Time.deltaTime * 0.3f ;
@@ -175,14 +183,10 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     void SetMainMenu(bool menuActive)
     {
 
         Color panelColor = new Color(0, 0, 0, 1);
-
-
         pauseMenuPanel.SetActive(menuActive);
         if (menuActive )
         {
@@ -197,9 +201,19 @@ public class GameManager : MonoBehaviour
             gameOverPanel.color = panelColor;
         }
 
+    }
 
+    void SpawnBoss()
+    {
+        if (!bossSet)
+        {
+            float randomX = Random.Range(screenBounds.x * -1, screenBounds.x);
+            Vector3 bossPos = new Vector3(randomX, screenBounds.y + 2, 0);
+            Quaternion bossRot = new Quaternion(0, 0, 0, 0);
+            Instantiate<GameObject>(boss, bossPos, bossRot);
 
-
+            bossSet = true;
+        }
 
     }
     // Update is called once per frame
@@ -211,55 +225,63 @@ public class GameManager : MonoBehaviour
         {
             gameOver = true;
 
-            SetGameOverScreen();
+            SetGameOverScreen("Game Over");
         }
 
         if (!gameOver)
         {
-            if (enemySpawnCooldown)
+            if(waveCount <= randomWaveLimit)
             {
-                spawnCooldown -= 1 * Time.deltaTime;
-
-                if (spawnCooldown <= 0)
+                if (enemySpawnCooldown)
                 {
-                    enemySpawnCooldown = false;
-                    spawnCooldown = 10.0f;
+                    spawnCooldown -= 1 * Time.deltaTime;
+
+                    if (spawnCooldown <= 0)
+                    {
+                        enemySpawnCooldown = false;
+                        spawnCooldown = 10.0f;
+                    }
+                }
+
+                spawnTimer -= 1 * Time.deltaTime;
+                if (spawnTimer <= 0 && !enemySpawnCooldown)
+                {
+                    if (randomChoice % 2 == 0)
+                        randomChoice = 2;
+                    if (randomChoice % 3 == 0)
+                        randomChoice = 3;
+                    switch (randomChoice)
+                    {
+                        case 1:
+                            SpawnEnemy2();
+                            return;
+
+                        case 2:
+                            SpawnEnemy1();
+                            return;
+
+                        case 3:
+                            SpawnEnemy3();
+                            return;
+
+                        default:
+                            SpawnEnemy2();
+                            return;
+                    }
+                }
+                randomPowerupSpawn -= 1 * Time.deltaTime;
+                if (randomPowerupSpawn <= 0)
+                {
+                    SpawnPowerup();
+                    randomPowerupSpawn = Random.Range(10, 20);
+
                 }
             }
-
-            spawnTimer -= 1 * Time.deltaTime;
-            if (spawnTimer <= 0 && !enemySpawnCooldown)
+            else
             {
-                if (randomChoice % 2 == 0)
-                    randomChoice = 2;
-                if (randomChoice % 3 == 0)
-                    randomChoice = 3;
-                switch (randomChoice)
-                {
-                    case 1:
-                        SpawnEnemy2();
-                        return;
-
-                    case 2:
-                        SpawnEnemy1();
-                        return;
-
-                    case 3:
-                        SpawnEnemy3();
-                        return;
-
-                    default:
-                        SpawnEnemy2();
-                        return;
-                }
+                SpawnBoss();
             }
-            randomPowerupSpawn -= 1 * Time.deltaTime;
-            if (randomPowerupSpawn <= 0)
-            {
-                SpawnPowerup();
-                randomPowerupSpawn = Random.Range(1, 20);
 
-            }
 
             bool menu = Input.GetKeyDown("escape");
 
