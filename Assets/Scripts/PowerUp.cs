@@ -6,21 +6,20 @@ public class PowerUp : MonoBehaviour
 {
     private float movementSpeed = 2;
     // Start is called before the first frame update
-    void Start()
-    {
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("hit");
+            float playerHealth = collision.gameObject.GetComponent<PlayerController>().health;
             switch (this.gameObject.tag)
             {
                 case "1Up":
-                    Debug.Log("Health Up");
-                    collision.gameObject.GetComponent<PlayerController>().health += 1;
-                    Destroy(this.gameObject);
+                    if(playerHealth < 5)
+                    {
+                        collision.gameObject.GetComponent<PlayerController>().health += 1;
+                        Destroy(this.gameObject);
+                    }
                     break;
             }
 

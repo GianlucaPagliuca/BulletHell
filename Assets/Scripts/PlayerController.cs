@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
         playerWidth = player.GetComponent<SpriteRenderer>().bounds.size.x / 2;
         playerHeight = player.GetComponent<SpriteRenderer>().bounds.size.y / 2;
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
+        Mathf.Clamp(health, 0, 5);
 
     }
 
