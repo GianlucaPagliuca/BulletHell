@@ -224,13 +224,11 @@ public class GameManager : MonoBehaviour
     {
         playerHealth = player.GetComponent<PlayerController>().health;
         healthText.GetComponent<Text>().text = "Health: " + Mathf.CeilToInt(playerHealth).ToString();
-        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
-        Quaternion particleRotation = player.transform.rotation;
 
         if (playerHealth <= 0)
         {
             gameOver = true;
-            Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
+           
 
             SetGameOverScreen("Game Over");
         }

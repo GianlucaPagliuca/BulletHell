@@ -45,6 +45,10 @@ public class EnemyBulletMovement : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().health -= 1;
+            if (collision.gameObject.GetComponent<PlayerController>().health <= 1)
+            {
+                KillParticles();
+            }
             Destroy(this.gameObject);
            
         }
@@ -56,7 +60,12 @@ public class EnemyBulletMovement : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().health -= 1;
-            KillParticles();
+            if (collision.gameObject.GetComponent<PlayerController>().health <= 0)
+            {
+                KillParticles();
+            }
+            
+            
             Destroy(this.gameObject);
 
             
@@ -73,8 +82,8 @@ public class EnemyBulletMovement : MonoBehaviour
         Quaternion particleRotation = player.transform.rotation;
         
         
-             Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
-            particleSpawned = true;
+        Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
+        
         
 
         
