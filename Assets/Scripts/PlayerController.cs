@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 screenBounds;
     private GameObject player, cam;
     public GameObject bullet;
+    public GameObject hitParticle;
+    private bool particleSpawned = false;
+
 
     private float playerWidth, playerHeight;
     // Start is called before the first frame update
@@ -92,6 +95,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
+        Quaternion particleRotation = player.transform.rotation;
         if (!cam.GetComponent<GameManager>().gameOver)
         {
             float jump = Input.GetAxis("Jump");
@@ -116,5 +121,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+       
+       
+           
+
+
+
+        
     }
+
 }

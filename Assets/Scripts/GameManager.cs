@@ -216,14 +216,21 @@ public class GameManager : MonoBehaviour
         }
 
     }
+    
+
+    
     // Update is called once per frame
     void Update()
     {
         playerHealth = player.GetComponent<PlayerController>().health;
         healthText.GetComponent<Text>().text = "Health: " + Mathf.CeilToInt(playerHealth).ToString();
-        if(playerHealth <= 0)
+        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
+        Quaternion particleRotation = player.transform.rotation;
+
+        if (playerHealth <= 0)
         {
             gameOver = true;
+            Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
 
             SetGameOverScreen("Game Over");
         }

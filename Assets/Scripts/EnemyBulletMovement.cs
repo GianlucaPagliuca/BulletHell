@@ -10,11 +10,19 @@ public class EnemyBulletMovement : MonoBehaviour
     private GameObject enemy;
     private Vector3 screenBounds;
     private float bulletWidth, enemyMovementSpeed;
+    private GameObject player;
+    bool particleSpawned = false;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
         bulletWidth = this.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+        player = GameObject.FindGameObjectWithTag("Player");
+
+
         if (GameObject.FindGameObjectWithTag("Enemy") != null)
         {
             enemy = GameObject.FindGameObjectWithTag("Enemy");
@@ -38,16 +46,38 @@ public class EnemyBulletMovement : MonoBehaviour
         {
             collision.gameObject.GetComponent<PlayerController>().health -= 1;
             Destroy(this.gameObject);
+           
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        
+        if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().health -= 1;
+            KillParticles();
             Destroy(this.gameObject);
+
+            
+            
+
+
+
         }
+
+    }
+    void KillParticles()
+    {
+        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
+        Quaternion particleRotation = player.transform.rotation;
+        
+        
+             Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
+            particleSpawned = true;
+        
+
+        
 
     }
 
@@ -62,5 +92,6 @@ public class EnemyBulletMovement : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
     }
 }
