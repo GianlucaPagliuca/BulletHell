@@ -253,6 +253,14 @@ public class GameManager : MonoBehaviour
                         return;
                 }
             }
+            randomPowerupSpawn -= 1 * Time.deltaTime;
+            if (randomPowerupSpawn <= 0)
+            {
+                SpawnPowerup();
+                randomPowerupSpawn = Random.Range(1, 20);
+
+            }
+
             bool menu = Input.GetKeyDown("escape");
 
             if (Input.GetKeyDown("escape"))
