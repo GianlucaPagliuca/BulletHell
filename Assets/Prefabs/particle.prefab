@@ -4822,7 +4822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7316142686432053123}
   m_Layer: 0
-  m_Name: particle_2
+  m_Name: particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
