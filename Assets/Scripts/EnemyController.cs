@@ -12,13 +12,17 @@ public class EnemyController : MonoBehaviour
     private float randomWaveSpeed, randomWaveLength;
     [Range(1,50)]
     public float movementSpeed;
-    private Vector2 screenBounds;
     public GameObject bullet;
+    public AudioSource audioSource;
+    public AudioClip deathSound;
+
+    private Vector2 screenBounds;
     private bool bulletReady = true;
     private float shootCooldown = 0;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = FindObjectOfType<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player");
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
         randomWaveSpeed = Mathf.Floor(Random.Range(1.0f, 8.0f));
@@ -32,6 +36,8 @@ public class EnemyController : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             player.GetComponent<PlayerController>().health -= 1;
+            audioSource.clip = deathSound;
+            audioSource.Play();
             Destroy(this.gameObject);
             Debug.Log(player.GetComponent<PlayerController>().health);
         }
@@ -42,6 +48,8 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             cam.GetComponent<GameManager>().Score += 1 * Mathf.CeilToInt(movementSpeed);
+            audioSource.clip = deathSound;
+            audioSource.Play();
             Destroy(collision.gameObject);
             
         }

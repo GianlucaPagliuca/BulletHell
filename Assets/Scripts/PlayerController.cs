@@ -16,9 +16,12 @@ public class PlayerController : MonoBehaviour
     private bool bulletReady = true;
     private Vector2 screenBounds;
     private GameObject player, cam;
+    private bool particleSpawned = false;
+    
+    public AudioClip shootSound;
+    public AudioSource audioSource;
     public GameObject bullet;
     public GameObject hitParticle;
-    private bool particleSpawned = false;
 
 
     private float playerWidth, playerHeight;
@@ -31,7 +34,6 @@ public class PlayerController : MonoBehaviour
         playerHeight = player.GetComponent<SpriteRenderer>().bounds.size.y / 2;
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
         Mathf.Clamp(health, 0, 5);
-
     }
 
     void SetNewPos(Vector3 newPos)
@@ -107,6 +109,8 @@ public class PlayerController : MonoBehaviour
             if (jump == 1 && bulletReady)
             {
                 Instantiate<GameObject>(bullet, bulletPos, bulletRotation);
+                audioSource.clip = shootSound;
+                audioSource.Play();
                 bulletReady = false;
             }
 

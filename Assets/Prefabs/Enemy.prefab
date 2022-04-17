@@ -103,9 +103,8 @@ MonoBehaviour:
   randomWaveLength: 0
   movementSpeed: 1
   bullet: {fileID: 8719541418474801528, guid: 94a718865d965b94482f29dd5f7c7c5a, type: 3}
-  enemy1Active: 0
-  enemy2Active: 0
-  enemy3Active: 0
+  audioSource: {fileID: 0}
+  deathSound: {fileID: 8300000, guid: 89a15d2a8213b4e41833399a0cbd3c68, type: 3}
 --- !u!70 &-5438106059725298701
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
