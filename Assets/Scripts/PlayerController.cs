@@ -76,6 +76,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+     public void SpawnParticles()
+    {
+        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
+        Quaternion particleRotation = player.transform.rotation;
+
+        if ( !particleSpawned )
+        {
+            particleSpawned = true;
+            Instantiate<GameObject>(hitParticle, particlePos, particleRotation);
+            player.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
+        }
+
+
+        
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -125,8 +141,13 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-       
-       
+
+        if (health <= 0 && !particleSpawned)
+        {
+
+            SpawnParticles();
+        }
+        
            
 
 

@@ -40,31 +40,16 @@ public class EnemyBulletMovement : MonoBehaviour
         enemyMovementSpeed = enemy.GetComponent<EnemyController>().movementSpeed;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            collision.gameObject.GetComponent<PlayerController>().health -= 1;
-            if (collision.gameObject.GetComponent<PlayerController>().health <= 1)
-            {
-                KillParticles();
-            }
-            Destroy(this.gameObject);
-           
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().health -= 1;
-            if (collision.gameObject.GetComponent<PlayerController>().health <= 0)
+            if (collision.GetComponent<PlayerController>().health <= 0)
             {
-                KillParticles();
+                player.GetComponent<PlayerController>().SpawnParticles();
             }
-            
             
             Destroy(this.gameObject);
 
@@ -74,19 +59,6 @@ public class EnemyBulletMovement : MonoBehaviour
 
 
         }
-
-    }
-    void KillParticles()
-    {
-        Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
-        Quaternion particleRotation = player.transform.rotation;
-        
-        
-        Instantiate<GameObject>(player.GetComponent<PlayerController>().hitParticle, particlePos, particleRotation);
-        
-        
-
-        
 
     }
 

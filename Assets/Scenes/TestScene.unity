@@ -2921,6 +2921,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8520699466616823645, guid: c862fbb97c4804fcea04600445369d19, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8520699466616823646, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: shootSound
       value: 
@@ -2929,6 +2933,10 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1837458161}
+    - target: {fileID: 8520699466616823646, guid: c862fbb97c4804fcea04600445369d19, type: 3}
+      propertyPath: hitParticle
+      value: 
+      objectReference: {fileID: 8840154192976271005, guid: 0bec514a9965d7a46bf4f0b640670ba4, type: 3}
     - target: {fileID: 8520699466616823647, guid: c862fbb97c4804fcea04600445369d19, type: 3}
       propertyPath: m_SortingOrder
       value: 1
