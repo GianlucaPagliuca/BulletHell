@@ -45,19 +45,13 @@ public class EnemyBulletMovement : MonoBehaviour
         
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<PlayerController>().health -= 1;
+            collision.gameObject.GetComponent<PlayerController>().DamagePlayer(1);
             if (collision.GetComponent<PlayerController>().health <= 0)
             {
                 player.GetComponent<PlayerController>().SpawnParticles();
             }
             
             Destroy(this.gameObject);
-
-            
-            
-
-
-
         }
 
     }

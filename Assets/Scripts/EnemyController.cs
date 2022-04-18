@@ -13,8 +13,9 @@ public class EnemyController : MonoBehaviour
     [Range(1,50)]
     public float movementSpeed;
     public GameObject bullet;
-    public AudioSource audioSource;
-    public AudioClip deathSound;
+    public AudioSource[] audioSources;
+    private AudioSource audioSource;
+    public AudioClip[] enemySounds;
 
     private Vector2 screenBounds;
     private bool bulletReady = true;
@@ -22,7 +23,14 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = FindObjectOfType<AudioSource>();
+        audioSources = FindObjectsOfType<AudioSource>();
+        foreach(AudioSource audio in audioSources)
+        {
+            if(audio.name == "Audio Source")
+            {
+                audioSource = audio;
+            }
+        }
         player = GameObject.FindGameObjectWithTag("Player");
         screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, transform.position.z));
         randomWaveSpeed = Mathf.Floor(Random.Range(1.0f, 8.0f));
@@ -35,11 +43,8 @@ public class EnemyController : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            player.GetComponent<PlayerController>().health -= 1;
-            audioSource.clip = deathSound;
-            audioSource.Play();
+            player.GetComponent<PlayerController>().DamagePlayer(1);
             Destroy(this.gameObject);
-            Debug.Log(player.GetComponent<PlayerController>().health);
         }
     }
 
@@ -48,7 +53,7 @@ public class EnemyController : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             cam.GetComponent<GameManager>().Score += 1 * Mathf.CeilToInt(movementSpeed);
-            audioSource.clip = deathSound;
+            audioSource.clip = enemySounds[0];
             audioSource.Play();
             Destroy(collision.gameObject);
             
@@ -131,6 +136,8 @@ public class EnemyController : MonoBehaviour
         {
             Quaternion bulletRot = new Quaternion(0, 180, 0, 0);
             bulletPos.y -= gameObject.GetComponent<SpriteRenderer>().bounds.size.y;
+            audioSource.clip = enemySounds[1];
+            audioSource.Play();
             Instantiate<GameObject>(bullet, bulletPos, bulletRot);
 
             bulletReady = false;

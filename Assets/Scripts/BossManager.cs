@@ -38,9 +38,8 @@ public class BossManager : MonoBehaviour
 
         if(health <= 0)
         {
-            Destroy(this.gameObject);
-            cam.GetComponent<GameManager>().SetGameOverScreen("Game Won");
-            Debug.Log("Game Won");
+            //Have to set the boss to invisible instead of dying so that the game can end.
+            this.GetComponent<SpriteRenderer>().color = new Color(0, 0, 0, 0);
         }
     }
 }

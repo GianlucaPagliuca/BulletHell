@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     private int enemyCount, randomChoice, randomEnemyCount, randomWaveLimit, waveCount;
     private GameObject player;
     private bool enemySpawnCooldown, activateGameOverButtons, button1Set, button2Set, bossSet = false;
-    private Vector2 screenBounds;
+    public Vector2 screenBounds;
 
     public GameObject[] enemies, gameOverButtons, pauseButtons, powerUps;
     public bool gameOver = false;
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
         }
         pauseButtons[0].transform.position = new Vector3(0, 0, -2);
         pauseButtons[1].transform.position = new Vector3(0, screenBounds.y * -1 / 2, -2);
-        randomWaveLimit = Random.Range(5, 10); //1;
+        randomWaveLimit = Random.Range(5, 10);
         waveText.transform.position = new Vector3(screenBounds.x * -1 + 2, screenBounds.y - 1, -1);
         waveCount = 0;
         waveText.GetComponent<TextMeshProUGUI>().text = "Wave: " + (waveCount + 1).ToString() + " / " + (randomWaveLimit + 2);
@@ -81,7 +81,6 @@ public class GameManager : MonoBehaviour
             randomChoice = Random.Range(1, 10);
             waveCount++;
             waveText.GetComponent<TextMeshProUGUI>().text = "Wave: " + (waveCount + 1).ToString() + " / " + (randomWaveLimit + 2);
-            Debug.Log("Wave: " + waveCount + " Wave Limit: " + randomWaveLimit);
         }
     }
 
@@ -231,6 +230,16 @@ public class GameManager : MonoBehaviour
            
 
             SetGameOverScreen("Game Over");
+        }
+        GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+        if(boss != null)
+        {
+            if(boss.GetComponent<BossManager>().health <= 0)
+            {
+                gameOver = true;
+
+                SetGameOverScreen("Game Won");
+            }
         }
 
         if (!gameOver)

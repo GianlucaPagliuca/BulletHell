@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private GameObject player, cam;
     private bool particleSpawned = false;
     
-    public AudioClip shootSound;
+    public AudioClip[] playerSounds;
     public AudioSource audioSource;
     public GameObject bullet;
     public GameObject hitParticle;
@@ -76,6 +76,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void DamagePlayer(int damage)
+    {
+        health -= damage;
+        audioSource.clip = playerSounds[1];
+        audioSource.Play();
+    }
      public void SpawnParticles()
     {
         Vector3 particlePos = new Vector3(player.transform.position.x, player.transform.position.y);
@@ -125,7 +131,7 @@ public class PlayerController : MonoBehaviour
             if (jump == 1 && bulletReady)
             {
                 Instantiate<GameObject>(bullet, bulletPos, bulletRotation);
-                audioSource.clip = shootSound;
+                audioSource.clip = playerSounds[0];
                 audioSource.Play();
                 bulletReady = false;
             }
@@ -144,7 +150,6 @@ public class PlayerController : MonoBehaviour
 
         if (health <= 0 && !particleSpawned)
         {
-
             SpawnParticles();
         }
         
